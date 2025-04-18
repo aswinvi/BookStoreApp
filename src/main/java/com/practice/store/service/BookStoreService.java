@@ -66,6 +66,16 @@ public class BookStoreService extends BookManagementService {
 			logger.log(Level.SEVERE, e.getMessage());
 		}
 	}
+	
+	public void removeBooks(List<Book> bookToUpdate) {
+		bookToUpdate.forEach(this::updateStore);
+		writeTheModifiedFileToJson();
+	}
+	
+	public void removeSingleBook(Book bookToUpdate) {
+		updateStore(bookToUpdate);
+		writeTheModifiedFileToJson();
+	}
 
 	@Override
 	public void updateStore(Book bookToUpdate) {

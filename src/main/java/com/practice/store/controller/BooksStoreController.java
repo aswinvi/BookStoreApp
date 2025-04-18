@@ -21,6 +21,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Books Store Controller", description = "Operations pertaining to the Book Store configuration and available books")
 public class BooksStoreController {
 
+	private static final String SUCCESFULLY_ADDED_THE_NEW_BOOK_INTO_THE_STORE = "Succesfully added the new Book into the Store !!! ";
 	private static final String HTTP_STATUS_500 = "500";
 	private static final String HTTP_STATUS_204 = "204";
 	private static final String HTTP_STATUS_200 = "200";
@@ -57,7 +58,7 @@ public class BooksStoreController {
 
 		bookStoreService.addNewBookIntoStore(newBook);
 
-		BookStoreResponse response = new BookStoreResponse("Succesfully added the new Book into the Store !!! ",
+		BookStoreResponse response = new BookStoreResponse(SUCCESFULLY_ADDED_THE_NEW_BOOK_INTO_THE_STORE,
 				bookStoreService.getBooksFromStore());
 
 		return ResponseEntity.ok(response);
@@ -73,10 +74,41 @@ public class BooksStoreController {
 
 		bookStoreService.addBooks(newBooks);
 
-		BookStoreResponse response = new BookStoreResponse("Succesfully added the new Book into the Store !!! ",
+		BookStoreResponse response = new BookStoreResponse(SUCCESFULLY_ADDED_THE_NEW_BOOK_INTO_THE_STORE,
 				bookStoreService.getBooksFromStore());
 
 		return ResponseEntity.ok(response);
 	}
+	
+	@Operation(summary = "Remove a single Book from the Store", description = "This service helps to remove the books from the store")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = HTTP_STATUS_200, description = "Successfully removed the book from the Store"),
+			@ApiResponse(responseCode = HTTP_STATUS_500, description = "Internal Server Error") })
+	@PostMapping(value = "/removeBook", produces = "application/json")
+	public ResponseEntity<BookStoreResponse> removeBooksFromTheStore(@RequestBody Book booktoUpdate) {
+
+		bookStoreService.removeSingleBook(booktoUpdate);
+
+		BookStoreResponse response = new BookStoreResponse("Successfully removed the book from the Store !!!",
+				bookStoreService.getBooksFromStore());
+
+		return ResponseEntity.ok(response);
+	}
+	
+	@Operation(summary = "Remove a list of New Books from the Store", description = "This service helps to remove the books from the store")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = HTTP_STATUS_200, description = "Successfully removed the books from the Store"),
+			@ApiResponse(responseCode = HTTP_STATUS_500, description = "Internal Server Error") })
+	@PostMapping(value = "/removeBookList", produces = "application/json")
+	public ResponseEntity<BookStoreResponse> removeBooksFromTheStore(@RequestBody List<Book> bookstoUpdate) {
+
+		bookStoreService.removeBooks(bookstoUpdate);
+
+		BookStoreResponse response = new BookStoreResponse("Successfully removed the books from the Store !!! ",
+				bookStoreService.getBooksFromStore());
+
+		return ResponseEntity.ok(response);
+	}
+	
 
 }
