@@ -44,6 +44,7 @@ class BasketServiceTest {
 		assertTrue(basket.getBooks().containsKey(book2));
 		assertEquals(1, basket.getBooks().get(book1));
 		assertEquals(2, basket.getBooks().get(book2));
+		assertEquals(150.0, basket.getTotalBasketValue());
 	}
 
 	@Test
@@ -64,6 +65,7 @@ class BasketServiceTest {
 
 		assertEquals(2, basket.getBooks().get(book1));
 		assertFalse(basket.getBooks().containsKey(book2));
+		assertEquals(0.0, basket.getTotalBasketValue());
 	}
 
 	@Test
@@ -80,6 +82,7 @@ class BasketServiceTest {
 		basketService.addBooksToBasket(basket, booksToAdd);
 
 		assertEquals(5, basket.getBooks().get(book1));
+		assertEquals(150.0, basket.getTotalBasketValue());
 	}
 
 	@Test
@@ -93,5 +96,6 @@ class BasketServiceTest {
 		basketService.removeBooksFromBasket(basket, booksToRemove);
 
 		assertEquals(2, basket.getBooks().get(book1));
+		assertEquals(0, basket.getTotalBasketValue());
 	}
 }

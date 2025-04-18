@@ -20,9 +20,9 @@ public class BasketService extends BookManagementService {
 
 			if (!bookExistsInBasket) {
 				basket.getBooks().put(bookToAdd, bookToAdd.getQuantity());
+				basket.setTotalBasketValue(basket.getTotalBasketValue() + bookToAdd.getPrice() * bookToAdd.getQuantity());
 			}
 		}
-
 	}
 
 	private boolean updateQuantityOfExistingBooksInTheBasket(Basket basket, Book bookToAdd) {
@@ -30,6 +30,7 @@ public class BasketService extends BookManagementService {
 			if (isSameBook(existingBook, bookToAdd)) {
 				addBookQuantity(existingBook, bookToAdd);
 				basket.getBooks().put(existingBook, existingBook.getQuantity());
+				basket.setTotalBasketValue(basket.getTotalBasketValue()+ bookToAdd.getPrice() * bookToAdd.getQuantity());
 				return true;
 			}
 		}
