@@ -3,6 +3,7 @@ package com.practice.store.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -20,6 +21,7 @@ import org.mockito.MockitoAnnotations;
 
 import com.practice.store.config.BookStoreConfigLoader;
 import com.practice.store.exception.BookStoreIOException;
+import com.practice.store.exception.BookStoreIllegalArgumentException;
 import com.practice.store.model.Book;
 import com.practice.store.model.BookStore;
 
@@ -122,5 +124,26 @@ class BookStoreServiceTest {
 
 		Mockito.verify(configLoader, Mockito.times(1)).writeBackJsonToFilePath();
 
+	}
+
+	@Test
+	void shouldReduceTheQuantityFromTheStoreAfterBooksSold() {
+
+		Book bookSold = new Book("The Clean Coder", "Robert Martin", 50, 2011, 5);
+
+		bookStoreService.updateStore(bookSold);
+
+		Book updatedBook = booksInTheStore.stream().filter(book -> book.getTitle().equals("The Clean Coder"))
+				.findFirst().orElse(null);
+
+		assertNotNull(updatedBook);
+		assertEquals(5, updatedBook.getQuantity());
+	}
+
+	@Test
+	void shouldThrowExceptionIfBookNotFindInStoreToUpdate() {
+		Book nonExistingBook = new Book("Non-Existent Book", "Unknown Author", 100, 2020, 1);
+
+		assertThrows(BookStoreIllegalArgumentException.class, () -> bookStoreService.updateStore(nonExistingBook));
 	}
 }

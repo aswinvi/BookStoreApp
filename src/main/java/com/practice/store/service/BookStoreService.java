@@ -52,8 +52,9 @@ public class BookStoreService extends BookManagementService {
 	}
 
 	private List<Book> updateQuantityIfAddingSameBook(Book newBook, List<Book> booksFromStore) {
-		booksFromStore = booksFromStore.stream().map(
-				bookInStore -> isSameBook(bookInStore, newBook) ? addBookQuantity(bookInStore, newBook) : bookInStore)
+		booksFromStore = booksFromStore.stream()
+				.map(bookInStore -> isSameBook(bookInStore, newBook) ? addBookQuantity(bookInStore, newBook)
+						: bookInStore)
 				.collect(Collectors.toList());
 		return booksFromStore;
 	}
@@ -68,7 +69,7 @@ public class BookStoreService extends BookManagementService {
 
 	@Override
 	public void updateStore(Book bookToUpdate) {
-
+		configLoader.setBooksInToStore(updateBooksInStorePostSale(bookToUpdate, getBooksFromStore()));
 	}
 
 }
