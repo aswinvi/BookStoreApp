@@ -20,7 +20,7 @@ public abstract class BookManagementService {
 				&& bookInTheStore.getYear() == bookToFind.getYear();
 	}
 
-	protected boolean hasNoValue(List<Book> books) {
+	public boolean hasNoValue(List<Book> books) {
 		return books == null || books.isEmpty();
 	}
 
