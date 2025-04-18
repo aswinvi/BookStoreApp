@@ -60,6 +60,12 @@ public abstract class BookManagementService {
 		return existingBook;
 	}
 
+	protected void validateBooks(List<Book> books) {
+		if (hasNoValue(books)) {
+			throw new IllegalArgumentException("Books cannot be null or empty.");
+		}
+	}
+
 	public abstract void updateStore(Book bookToUpdate);
 
 }
