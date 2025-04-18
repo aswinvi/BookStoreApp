@@ -10,6 +10,8 @@ import com.practice.store.model.Book;
 @Service
 public class BasketService extends BookManagementService {
 
+	private static final int ZERO_BOOKS = 0;
+
 	public void addBooksToBasket(Basket basket, List<Book> books) {
 		validateBooks(books);
 
@@ -20,7 +22,8 @@ public class BasketService extends BookManagementService {
 
 			if (!bookExistsInBasket) {
 				basket.getBooks().put(bookToAdd, bookToAdd.getQuantity());
-				basket.setTotalBasketValue(basket.getTotalBasketValue() + bookToAdd.getPrice() * bookToAdd.getQuantity());
+				basket.setTotalBasketValue(
+						basket.getTotalBasketValue() + bookToAdd.getPrice() * bookToAdd.getQuantity());
 			}
 		}
 	}
@@ -30,7 +33,8 @@ public class BasketService extends BookManagementService {
 			if (isSameBook(existingBook, bookToAdd)) {
 				addBookQuantity(existingBook, bookToAdd);
 				basket.getBooks().put(existingBook, existingBook.getQuantity());
-				basket.setTotalBasketValue(basket.getTotalBasketValue()+ bookToAdd.getPrice() * bookToAdd.getQuantity());
+				basket.setTotalBasketValue(
+						basket.getTotalBasketValue() + bookToAdd.getPrice() * bookToAdd.getQuantity());
 				return true;
 			}
 		}
@@ -49,15 +53,32 @@ public class BasketService extends BookManagementService {
 		for (Book existingBook : basket.getBooks().keySet()) {
 			if (isSameBook(existingBook, bookToremove)) {
 				updateBookQuantity(existingBook, bookToremove);
-				if (existingBook.getQuantity() == 0) {
-					basket.getBooks().remove(existingBook);
-				} else {
-					basket.getBooks().replace(existingBook, existingBook.getQuantity());
-				}
+				removeOrReplaceFromBasket(basket, existingBook);
 				return true;
 			}
+			basket.setTotalBasketValue(
+					basket.getTotalBasketValue() - bookToremove.getPrice() * bookToremove.getQuantity());
 		}
 		return false;
+	}
+
+	private void removeOrReplaceFromBasket(Basket basket, Book existingBook) {
+		if (isNoBookMatching(existingBook)) {
+			basket.getBooks().remove(existingBook);
+		} else {
+			basket.getBooks().replace(existingBook, existingBook.getQuantity());
+		}
+	}
+
+	private boolean isNoBookMatching(Book existingBook) {
+		return existingBook.getQuantity() == ZERO_BOOKS;
+	}
+
+	public Basket createBasket(Basket basket) {
+		if (null == basket) {
+			basket = new Basket();
+		}
+		return basket;
 	}
 
 	@Override
