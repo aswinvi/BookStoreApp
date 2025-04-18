@@ -1,5 +1,12 @@
 package com.practice.store.controller;
 
+import static com.practice.store.constants.BookStoreConstants.HTTP_STATUS_200;
+import static com.practice.store.constants.BookStoreConstants.HTTP_STATUS_204;
+import static com.practice.store.constants.BookStoreConstants.HTTP_STATUS_500;
+import static com.practice.store.constants.BookStoreConstants.SUCCESFULLY_ADDED_THE_NEW_BOOK_INTO_THE_STORE;
+import static com.practice.store.constants.BookStoreConstants.SUCCESSFULLY_REMOVED_THE_BOOK;
+import static com.practice.store.constants.BookStoreConstants.SUCCESSFULLY_RETRIEVED_BOOKS;
+
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -21,11 +28,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Books Store Controller", description = "Operations pertaining to the Book Store configuration and available books")
 public class BooksStoreController {
 
-	private static final String SUCCESFULLY_ADDED_THE_NEW_BOOK_INTO_THE_STORE = "Succesfully added the new Book into the Store !!! ";
-	private static final String HTTP_STATUS_500 = "500";
-	private static final String HTTP_STATUS_204 = "204";
-	private static final String HTTP_STATUS_200 = "200";
-
 	private BookStoreService bookStoreService;
 
 	public BooksStoreController(BookStoreService bookStoreService) {
@@ -44,7 +46,7 @@ public class BooksStoreController {
 		if (books.isEmpty()) {
 			return ResponseEntity.noContent().build();
 		}
-		return ResponseEntity.ok(new BookStoreResponse("Successfully retrieved books from the store.", books));
+		return ResponseEntity.ok(new BookStoreResponse(SUCCESSFULLY_RETRIEVED_BOOKS, books));
 
 	}
 
@@ -89,7 +91,7 @@ public class BooksStoreController {
 
 		bookStoreService.removeSingleBook(booktoUpdate);
 
-		BookStoreResponse response = new BookStoreResponse("Successfully removed the book from the Store !!!",
+		BookStoreResponse response = new BookStoreResponse(SUCCESSFULLY_REMOVED_THE_BOOK,
 				bookStoreService.getBooksFromStore());
 
 		return ResponseEntity.ok(response);
@@ -104,7 +106,7 @@ public class BooksStoreController {
 
 		bookStoreService.removeBooks(bookstoUpdate);
 
-		BookStoreResponse response = new BookStoreResponse("Successfully removed the books from the Store !!! ",
+		BookStoreResponse response = new BookStoreResponse(SUCCESSFULLY_REMOVED_THE_BOOK,
 				bookStoreService.getBooksFromStore());
 
 		return ResponseEntity.ok(response);

@@ -1,5 +1,13 @@
 package com.practice.store.controller;
 
+import static com.practice.store.constants.BookStoreConstants.ERROR_THE_BOOKS_LIST_IS_EMPTY_OR_INVALID;
+import static com.practice.store.constants.BookStoreConstants.HTTP_STATUS_200;
+import static com.practice.store.constants.BookStoreConstants.HTTP_STATUS_500;
+import static com.practice.store.constants.BookStoreConstants.INTERNAL_SERVER_ERROR;
+import static com.practice.store.constants.BookStoreConstants.SESSION_ID;
+import static com.practice.store.constants.BookStoreConstants.SUCCESSFULLY_DELETED_THE_BOOK_FROM_THE_BASKET;
+import static com.practice.store.constants.BookStoreConstants.SUCCESSFULLY_REMOVED_BOOKS_FROM_BASKET;
+
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -24,9 +32,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 @RequestMapping("/basket")
 public class BasketController {
 
-	private static final String HTTP_STATUS_500 = "500";
-	private static final String HTTP_STATUS_200 = "200";
-
 	private final BasketService basketService;
 
 	private final CacheFactoryService cache;
@@ -40,10 +45,10 @@ public class BasketController {
 	@Operation(summary = "Add Books into Basket for checkout", description = "This service helps to Add Books into Basket")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = HTTP_STATUS_200, description = "Successfully added the book into the basket"),
-			@ApiResponse(responseCode = HTTP_STATUS_500, description = "Internal Server Error") })
+			@ApiResponse(responseCode = HTTP_STATUS_500, description = INTERNAL_SERVER_ERROR) })
 	@PostMapping(value = "/addBooksToBasket", produces = "application/json")
 	public ResponseEntity<BooksOrderDetailsResponse> addBooksToBasket(@RequestBody List<Book> books,
-			@Parameter(description = "Session ID", required = true) @RequestParam String sessionId) {
+			@Parameter(description = SESSION_ID, required = true) @RequestParam String sessionId) {
 
 		if (basketService.hasNoValue(books)) {
 			return formBadRequestError();
@@ -62,11 +67,11 @@ public class BasketController {
 
 	@Operation(summary = "Remove Books from Basket", description = "This service helps to remove Books from Basket")
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = HTTP_STATUS_200, description = "Successfully deleted the book from the basket"),
-			@ApiResponse(responseCode = HTTP_STATUS_500, description = "Internal Server Error") })
+			@ApiResponse(responseCode = HTTP_STATUS_200, description = SUCCESSFULLY_DELETED_THE_BOOK_FROM_THE_BASKET),
+			@ApiResponse(responseCode = HTTP_STATUS_500, description = INTERNAL_SERVER_ERROR) })
 	@PostMapping(value = "/removeBooks", produces = "application/json")
 	public ResponseEntity<BooksOrderDetailsResponse> removeBooksFromBasket(@RequestBody List<Book> books,
-			@Parameter(description = "Session ID", required = true) @RequestParam String sessionId) {
+			@Parameter(description = SESSION_ID, required = true) @RequestParam String sessionId) {
 
 		if (basketService.hasNoValue(books)) {
 			return formBadRequestError();
@@ -78,7 +83,7 @@ public class BasketController {
 
 		cache.addBasketToCache(sessionId, basket);
 
-		BooksOrderDetailsResponse response = new BooksOrderDetailsResponse("Successfully removed books from Basket !!!",
+		BooksOrderDetailsResponse response = new BooksOrderDetailsResponse(SUCCESSFULLY_REMOVED_BOOKS_FROM_BASKET,
 				basket);
 
 		return ResponseEntity.ok(response);
@@ -86,7 +91,7 @@ public class BasketController {
 
 	private ResponseEntity<BooksOrderDetailsResponse> formBadRequestError() {
 		return ResponseEntity.badRequest()
-				.body(new BooksOrderDetailsResponse("Error: The books list is empty or invalid.", null));
+				.body(new BooksOrderDetailsResponse(ERROR_THE_BOOKS_LIST_IS_EMPTY_OR_INVALID, null));
 	}
 
 }

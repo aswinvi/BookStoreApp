@@ -1,16 +1,15 @@
 package com.practice.store.service;
 
+import static com.practice.store.constants.BookStoreConstants.ZERO_BOOKS;
+
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.practice.store.model.Basket;
 import com.practice.store.model.Book;
-
 @Service
 public class BasketService extends BookManagementService {
-
-	private static final int ZERO_BOOKS = 0;
 
 	public void addBooksToBasket(Basket basket, List<Book> books) {
 		validateBooks(books);

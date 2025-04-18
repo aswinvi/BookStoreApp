@@ -1,5 +1,8 @@
 package com.practice.store.service;
 
+import static com.practice.store.constants.BookStoreConstants.BOOKS_CANNOT_BE_NULL_OR_EMPTY;
+import static com.practice.store.constants.BookStoreConstants.BOOK_NOT_FOUND_IN_STORE_FOR_UPDATE;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -49,7 +52,7 @@ public abstract class BookManagementService {
 								: bookInStore)
 						.collect(Collectors.toList());
 			} else {
-				throw new BookStoreIllegalArgumentException("Book not found in store for update");
+				throw new BookStoreIllegalArgumentException(BOOK_NOT_FOUND_IN_STORE_FOR_UPDATE);
 			}
 		}
 		return booksFromStore;
@@ -62,7 +65,7 @@ public abstract class BookManagementService {
 
 	protected void validateBooks(List<Book> books) {
 		if (hasNoValue(books)) {
-			throw new IllegalArgumentException("Books cannot be null or empty.");
+			throw new IllegalArgumentException(BOOKS_CANNOT_BE_NULL_OR_EMPTY);
 		}
 	}
 
