@@ -20,6 +20,8 @@ public final class BookStoreConstants {
 	
 	public static final String HTTP_STATUS_200 = "200";
 	
+	public static final String HTTP_STATUS_404 = "404";
+
 	public static final String SUCCESSFULLY_DELETED_THE_BOOK_FROM_THE_BASKET = "Successfully deleted the book from the basket";
 
 	public static final String INTERNAL_SERVER_ERROR = "Internal Server Error";
@@ -59,6 +61,14 @@ public final class BookStoreConstants {
 	public static final String INSUFFICIENT_STOCK_FOR = "Insufficient stock for: ";
 	
 	public static final String NO_BOOKS_AVAILABLE_TO_CHECKOUT = "No Books AVailable to checkout!!";
+	
+	public static final String REARRANGE_ORDER = "  - Please revist your basket and select a different book!! ";
+
+	public static final String CHECKOUT_IS_SUCCESSFUL = "Checkout is Successful and the order will be dispactched soon !!!";
+
+	public static final String BAD_REQUEST = "Bad Request";
+	
+	public static final String PLEASE_RETRY_CHECKING_OUT_LATER = "Please retry Checking out Later !!";
 	
 
 }

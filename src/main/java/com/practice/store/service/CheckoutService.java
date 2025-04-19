@@ -1,7 +1,9 @@
 package com.practice.store.service;
 
+import static com.practice.store.constants.BookStoreConstants.CHECKOUT_IS_SUCCESSFUL;
 import static com.practice.store.constants.BookStoreConstants.INSUFFICIENT_STOCK_FOR;
 import static com.practice.store.constants.BookStoreConstants.NO_BOOKS_AVAILABLE_TO_CHECKOUT;
+import static com.practice.store.constants.BookStoreConstants.PLEASE_RETRY_CHECKING_OUT_LATER;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +11,9 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.hazelcast.logging.ILogger;
+import com.hazelcast.logging.Logger;
+import com.practice.store.CacheFactoryService;
 import com.practice.store.config.BookStoreConfigLoader;
 import com.practice.store.exception.BookStoreIllegalArgumentException;
 import com.practice.store.model.Basket;
@@ -18,12 +23,25 @@ import com.practice.store.model.BookStore;
 @Service
 public class CheckoutService extends BookManagementService {
 
+	private static ILogger logger = Logger.getLogger(BookManagementService.class);
+
 	private BookStoreConfigLoader configLoader;
 	private DiscountService discountService;
 
 	public CheckoutService(BookStoreConfigLoader configLoader, DiscountService discountService) {
 		this.configLoader = configLoader;
 		this.discountService = discountService;
+	}
+
+	public boolean executeCheckout(Basket basket) {
+
+		return paymentGateway(checkoutBasket(basket));
+
+	}
+
+	private boolean paymentGateway(double price) {
+		logger.info("Payment completed for amount  : " + price);
+		return true;
 	}
 
 	public double checkoutBasket(Basket basket) {
@@ -68,6 +86,15 @@ public class CheckoutService extends BookManagementService {
 	private void addBooksToBasketListBasedOnQuantity(List<Book> basketBooks, Book book, int quantity) {
 		for (int i = 0; i < quantity; i++) {
 			basketBooks.add(book);
+		}
+	}
+	
+	public String setCheckOutStatusAndClearCache(String sessionId, boolean checkoutStatus, CacheFactoryService cache) {
+		if (checkoutStatus) {
+			cache.deleteBasketFromCache(sessionId);
+			return CHECKOUT_IS_SUCCESSFUL;
+		} else {
+			return PLEASE_RETRY_CHECKING_OUT_LATER;
 		}
 	}
 
