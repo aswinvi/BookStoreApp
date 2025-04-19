@@ -103,7 +103,7 @@ class BooksStoreControllerTest {
 
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertNotNull(response.getBody());
-		assertEquals("Successfully removed the books from the Store !!! ", response.getBody().getMessage());
+		assertEquals("Successfully removed the book from the Store !!!", response.getBody().getMessage());
 		assertEquals(2, response.getBody().getBooks().size());
 	}
 	

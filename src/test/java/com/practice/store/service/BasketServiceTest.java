@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -26,7 +27,12 @@ class BasketServiceTest {
 		MockitoAnnotations.openMocks(this);
 		basket = new Basket();
 	}
-
+	
+	@AfterEach
+	void after() {
+		basket.getBooks().clear();
+		basket.setTotalBasketValue(0.0);
+	}
 	@Test
 	void shouldAddBooksSuccessfullyIntoBasket() {
 		Book book1 = new Book("Book1", "Auther", 50, 2022, 1);
@@ -89,6 +95,8 @@ class BasketServiceTest {
 	void shouldNotRemoveNonExistingBooks() {
 		Book book1 = new Book("Book1", "Auther", 50, 2022, 2);
 		book1.setQuantity(2);
+		basket = new Basket();
+		
 		basket.getBooks().put(book1, book1.getQuantity());
 
 		List<Book> booksToRemove = List.of(new Book("Book Not In Basket", "Author", 40, 1987, 1));

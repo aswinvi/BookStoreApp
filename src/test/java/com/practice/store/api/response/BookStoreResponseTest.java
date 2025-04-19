@@ -23,6 +23,7 @@ class BookStoreResponseTest {
 		Book book = new Book(title, author, price, year, quantity);
 
 		List<Book> books = new ArrayList<>();
+		books.add(book);
 
 		BookStoreResponse response = new BookStoreResponse("Message Loaded", books);
 
