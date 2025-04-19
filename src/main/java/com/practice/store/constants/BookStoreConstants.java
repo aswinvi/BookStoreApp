@@ -37,5 +37,24 @@ public final class BookStoreConstants {
 	public static final String BOOK_NOT_FOUND_IN_STORE_FOR_UPDATE = "Book not found in store for update";
 	
 	public static final String BOOKS_CANNOT_BE_NULL_OR_EMPTY = "Books cannot be null or empty.";
+	
+	public static final int FIVE_SET_OF_BOOKS = 5;
+	
+	public static final int FOUR_SET_OF_BOOKS = 4;
+	
+	public static final int THREE_SET_OF_BOOKS = 3;
+	
+	public static final int TWO_SET_OF_BOOKS = 2;
+	
+	public static final double DEFAULT_PRICE = 0.0;
+	
+	public static final double OFFER_FOR_25_PERCENTAGE = 0.25;
+	
+	public static final double OFFER_FOR_20_PERCENTAGE = 0.20;
+	
+	public static final double OFFER_FOR_10_PERCENTAGE = 0.10;
+	
+	public static final double OFFER_FOR_5_PERCENTAGE = 0.05;
+	
 
 }
