@@ -19,7 +19,7 @@ public final class BookStoreConstants {
 	public static final String HTTP_STATUS_204 = "204";
 	
 	public static final String HTTP_STATUS_200 = "200";
-
+	
 	public static final String SUCCESSFULLY_DELETED_THE_BOOK_FROM_THE_BASKET = "Successfully deleted the book from the basket";
 
 	public static final String INTERNAL_SERVER_ERROR = "Internal Server Error";
@@ -55,6 +55,10 @@ public final class BookStoreConstants {
 	public static final double OFFER_FOR_10_PERCENTAGE = 0.10;
 	
 	public static final double OFFER_FOR_5_PERCENTAGE = 0.05;
+	
+	public static final String INSUFFICIENT_STOCK_FOR = "Insufficient stock for: ";
+	
+	public static final String NO_BOOKS_AVAILABLE_TO_CHECKOUT = "No Books AVailable to checkout!!";
 	
 
 }

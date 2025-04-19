@@ -68,6 +68,13 @@ public abstract class BookManagementService {
 			throw new IllegalArgumentException(BOOKS_CANNOT_BE_NULL_OR_EMPTY);
 		}
 	}
+	
+	public boolean isBookInStock(Book book, int quantity, List<Book> booksFromTheStore) {
+
+		Optional<Book> bookFound = findBookInStore(book, booksFromTheStore);
+
+		return bookFound.isPresent() && bookFound.get().getQuantity() >= quantity;
+	}
 
 	public abstract void updateStore(Book bookToUpdate);
 
