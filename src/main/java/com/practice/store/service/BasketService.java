@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.practice.store.model.Basket;
 import com.practice.store.model.Book;
+
 @Service
 public class BasketService extends BookManagementService {
 
@@ -56,7 +57,7 @@ public class BasketService extends BookManagementService {
 				return true;
 			}
 			basket.setTotalBasketValue(
-					basket.getTotalBasketValue() - bookToremove.getPrice() * bookToremove.getQuantity());
+					Math.max(0.0, basket.getTotalBasketValue() - bookToremove.getPrice() * bookToremove.getQuantity()));
 		}
 		return false;
 	}
